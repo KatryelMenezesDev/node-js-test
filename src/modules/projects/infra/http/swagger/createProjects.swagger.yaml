@@ -2,6 +2,8 @@
   post:
     tags:
       - Projects
+    security:
+      - BearerAuth: []
     summary: Cria um novo projeto.
     requestBody:
       required: true

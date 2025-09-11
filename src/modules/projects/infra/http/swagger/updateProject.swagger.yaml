@@ -2,6 +2,8 @@
   put:
     tags:
       - Projects
+    security:
+      - BearerAuth: []
     summary: Atualiza informações de um projeto.
     description: Atualiza os dados de um projeto existente. Todos os campos são opcionais
     parameters:

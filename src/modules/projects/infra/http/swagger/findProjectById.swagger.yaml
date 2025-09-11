@@ -2,6 +2,8 @@
   get:
     tags:
       - Projects
+    security:
+      - BearerAuth: []
     summary: Busca um projeto específico por ID.
     description: Retorna os dados completos de um projeto específico baseado no ID fornecido
     parameters:

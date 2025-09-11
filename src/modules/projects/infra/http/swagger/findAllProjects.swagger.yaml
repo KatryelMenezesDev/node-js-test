@@ -2,6 +2,8 @@
   get:
     tags:
       - Projects
+    security:
+      - BearerAuth: []
     summary: Lista todos os projetos.
     description: Retorna uma lista com todos os projetos cadastrados no sistema
     responses:

@@ -3,6 +3,8 @@ paths:
     put:
       tags:
         - Tasks
+      security:
+        - BearerAuth: []
       summary: Atualizar uma tarefa existente
       description: Atualiza status, título ou descrição de uma tarefa
       parameters:

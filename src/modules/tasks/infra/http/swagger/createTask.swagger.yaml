@@ -3,6 +3,8 @@ paths:
     post:
       tags:
         - Tasks
+      security:
+        - BearerAuth: []
       summary: Criar uma nova tarefa vinculada a um projeto
       description: Cria uma nova tarefa e vincula ela a um projeto específico
       parameters:

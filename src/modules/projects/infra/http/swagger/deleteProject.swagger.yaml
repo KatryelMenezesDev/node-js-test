@@ -2,6 +2,8 @@
   delete:
     tags:
       - Projects
+    security:
+      - BearerAuth: []
     summary: Remove um projeto.
     description: Remove permanentemente um projeto do sistema
     parameters:

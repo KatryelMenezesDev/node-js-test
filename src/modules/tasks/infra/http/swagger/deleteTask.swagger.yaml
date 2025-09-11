@@ -3,6 +3,8 @@ paths:
     delete:
       tags:
         - Tasks
+      security:
+        - BearerAuth: []
       summary: Remover uma tarefa
       description: Remove permanentemente uma tarefa do sistema
       parameters:

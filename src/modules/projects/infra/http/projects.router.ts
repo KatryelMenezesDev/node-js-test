@@ -15,6 +15,7 @@ import {
 import { CreateTaskController, FindTasksByProjectController } from "@modules/tasks/infra/http/tasks.controller";
 import { CreateTaskValidator, FindTasksByProjectValidator } from "@modules/tasks/infra/http/tasks.validator";
 import { celebrate } from "celebrate";
+import { Authentication } from "@utils/Authentication";
 
 export const projectsRouter = Router();
 
@@ -28,10 +29,15 @@ const createTaskController = new CreateTaskController();
 const findTasksByProjectController = new FindTasksByProjectController();
 
 // Routes
-projectsRouter.get("/", findAllProjectsController.handle);
-projectsRouter.get("/:projectId/tasks", celebrate(FindTasksByProjectValidator), findTasksByProjectController.handle);
-projectsRouter.get("/:id", celebrate(FindProjectByIdValidator), findProjectByIdController.handle);
-projectsRouter.post("/:projectId/tasks", celebrate(CreateTaskValidator), createTaskController.handle);
-projectsRouter.post("/", celebrate(CreateProjectsValidator), createProjectsController.handle);
-projectsRouter.put("/:id", celebrate(UpdateProjectValidator), updateProjectController.handle);
-projectsRouter.delete("/:id", celebrate(DeleteProjectValidator), deleteProjectController.handle);
+projectsRouter.get("/", Authentication, findAllProjectsController.handle);
+projectsRouter.get(
+  "/:projectId/tasks",
+  celebrate(FindTasksByProjectValidator),
+  Authentication,
+  findTasksByProjectController.handle,
+);
+projectsRouter.get("/:id", celebrate(FindProjectByIdValidator), Authentication, findProjectByIdController.handle);
+projectsRouter.post("/:projectId/tasks", celebrate(CreateTaskValidator), Authentication, createTaskController.handle);
+projectsRouter.post("/", celebrate(CreateProjectsValidator), Authentication, createProjectsController.handle);
+projectsRouter.put("/:id", celebrate(UpdateProjectValidator), Authentication, updateProjectController.handle);
+projectsRouter.delete("/:id", celebrate(DeleteProjectValidator), Authentication, deleteProjectController.handle);

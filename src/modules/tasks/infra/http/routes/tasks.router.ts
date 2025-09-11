@@ -6,6 +6,7 @@ import {
 } from "@modules/tasks/infra/http/tasks.controller";
 import { UpdateTaskValidator, DeleteTaskValidator } from "@modules/tasks/infra/http/tasks.validator";
 import { celebrate } from "celebrate";
+import { Authentication } from "@utils/Authentication";
 
 export const tasksRouter = Router();
 
@@ -13,6 +14,6 @@ const updateTaskController = new UpdateTaskController();
 const deleteTaskController = new DeleteTaskController();
 const findAllTasksController = new FindAllTasksController();
 
-tasksRouter.get("/", findAllTasksController.handle);
-tasksRouter.put("/:id", celebrate(UpdateTaskValidator), updateTaskController.handle);
-tasksRouter.delete("/:id", celebrate(DeleteTaskValidator), deleteTaskController.handle);
+tasksRouter.get("/", Authentication, findAllTasksController.handle);
+tasksRouter.put("/:id", celebrate(UpdateTaskValidator), Authentication, updateTaskController.handle);
+tasksRouter.delete("/:id", celebrate(DeleteTaskValidator), Authentication, deleteTaskController.handle);
