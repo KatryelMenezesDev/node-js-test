@@ -18,21 +18,35 @@ paths:
                     id:
                       type: string
                       format: uuid
+                      example: "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
+                      description: ID único da tarefa
                     project_id:
                       type: string
                       format: uuid
+                      example: "0720a8f5-df8e-4356-9216-e84a4f67aa1f"
+                      description: ID do projeto vinculado
                     title:
                       type: string
+                      example: "Implementar autenticação de usuários"
+                      description: Título da tarefa
                     description:
                       type: string
+                      example: "Desenvolver sistema de login com JWT e validação de senha"
+                      description: Descrição da tarefa
                     status:
                       type: string
                       enum: [todo, in_progress, done]
+                      example: "in_progress"
+                      description: Status atual da tarefa
                     created_at:
                       type: string
                       format: date-time
+                      example: "2025-09-11T10:30:00Z"
+                      description: Data de criação da tarefa
                     updated_at:
                       type: string
                       format: date-time
+                      example: "2025-09-11T12:45:00Z"
+                      description: Data da última atualização da tarefa
         '400':
           description: Erro ao buscar tarefas

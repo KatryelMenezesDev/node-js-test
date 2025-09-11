@@ -24,17 +24,27 @@ paths:
                   id:
                     type: string
                     format: uuid
+                    example: "b2c3d4e5-f6g7-8901-bcde-2345678901bc"
+                    description: ID único do usuário
                   name:
                     type: string
+                    example: "João Silva"
+                    description: Nome do usuário
                   email:
                     type: string
                     format: email
+                    example: "joao.silva@email.com"
+                    description: Email do usuário
                   created_at:
                     type: string
                     format: date-time
+                    example: "2025-09-11T10:30:00Z"
+                    description: Data de criação do usuário
                   updated_at:
                     type: string
                     format: date-time
+                    example: "2025-09-11T10:30:00Z"
+                    description: Data da última atualização do usuário
         '404':
           description: Usuário não encontrado
         '400':
