@@ -13,11 +13,6 @@ const updateTaskController = new UpdateTaskController();
 const deleteTaskController = new DeleteTaskController();
 const findAllTasksController = new FindAllTasksController();
 
-// GET /tasks → Lista todas as tasks
 tasksRouter.get("/", findAllTasksController.handle);
-
-// PUT /tasks/:id → Atualiza status/título/descrição
 tasksRouter.put("/:id", celebrate(UpdateTaskValidator), updateTaskController.handle);
-
-// DELETE /tasks/:id → Remove tarefa
 tasksRouter.delete("/:id", celebrate(DeleteTaskValidator), deleteTaskController.handle);

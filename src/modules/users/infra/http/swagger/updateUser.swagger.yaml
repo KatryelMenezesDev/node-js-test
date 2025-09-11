@@ -1,0 +1,59 @@
+paths:
+  /users/{id}:
+    put:
+      tags:
+        - Users
+      summary: Atualizar um usuário existente
+      description: Atualiza nome, email ou senha de um usuário
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do usuário a ser atualizado
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Novo nome do usuário
+                email:
+                  type: string
+                  format: email
+                  description: Novo email do usuário
+                password:
+                  type: string
+                  minLength: 6
+                  description: Nova senha do usuário (mínimo 6 caracteres)
+      responses:
+        '200':
+          description: Usuário atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  name:
+                    type: string
+                  email:
+                    type: string
+                    format: email
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+        '400':
+          description: Dados inválidos ou email já existe
+        '404':
+          description: Usuário não encontrado

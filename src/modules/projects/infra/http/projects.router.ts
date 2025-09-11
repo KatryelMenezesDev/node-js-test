@@ -18,6 +18,7 @@ import { celebrate } from "celebrate";
 
 export const projectsRouter = Router();
 
+// Controllers
 const createProjectsController = new CreateProjectsController();
 const findAllProjectsController = new FindAllProjectsController();
 const findProjectByIdController = new FindProjectByIdController();
@@ -26,14 +27,11 @@ const deleteProjectController = new DeleteProjectController();
 const createTaskController = new CreateTaskController();
 const findTasksByProjectController = new FindTasksByProjectController();
 
-projectsRouter.post("/", celebrate(CreateProjectsValidator), createProjectsController.handle);
+// Routes
 projectsRouter.get("/", findAllProjectsController.handle);
+projectsRouter.get("/:projectId/tasks", celebrate(FindTasksByProjectValidator), findTasksByProjectController.handle);
 projectsRouter.get("/:id", celebrate(FindProjectByIdValidator), findProjectByIdController.handle);
+projectsRouter.post("/:projectId/tasks", celebrate(CreateTaskValidator), createTaskController.handle);
+projectsRouter.post("/", celebrate(CreateProjectsValidator), createProjectsController.handle);
 projectsRouter.put("/:id", celebrate(UpdateProjectValidator), updateProjectController.handle);
 projectsRouter.delete("/:id", celebrate(DeleteProjectValidator), deleteProjectController.handle);
-
-// GET /projects/:projectId/tasks → Lista tasks de um projeto específico
-projectsRouter.get("/:projectId/tasks", celebrate(FindTasksByProjectValidator), findTasksByProjectController.handle);
-
-// POST /projects/:projectId/tasks → Cria tarefa vinculada a um projeto
-projectsRouter.post("/:projectId/tasks", celebrate(CreateTaskValidator), createTaskController.handle);

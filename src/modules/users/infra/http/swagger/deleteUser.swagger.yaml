@@ -1,0 +1,30 @@
+paths:
+  /users/{id}:
+    delete:
+      tags:
+        - Users
+      summary: Deletar um usuário
+      description: Remove um usuário do sistema
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do usuário a ser deletado
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Usuário deletado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User deleted successfully"
+        '404':
+          description: Usuário não encontrado
+        '400':
+          description: Erro ao deletar usuário
