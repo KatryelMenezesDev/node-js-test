@@ -1,6 +1,8 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-import { plans, Prisma } from "@prisma/client";
-import { IBaseRepository } from "@shared/repositories/IBaseRepository";
+import { User } from "@shared/infra/sequelize/models";
 
-export interface IUsersRepository
-  extends IBaseRepository<plans, Prisma.plansCreateInput, Prisma.plansWhereUniqueInput, Prisma.plansWhereInput> {}
+export interface IUsersRepository {
+  authenticate(email: string, password: string): Promise<User>;
+  create(user: User): Promise<User>;
+  update(id: string, user: User): Promise<User>;
+  delete(id: string): Promise<void>;
+}
