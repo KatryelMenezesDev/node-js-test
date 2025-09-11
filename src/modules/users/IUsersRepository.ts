@@ -1,8 +1,5 @@
 import { User } from "@shared/infra/sequelize/models";
+import { IBaseRepositorySequelize } from "@shared/repositories/sequelize/IBaseRepository";
+import { CreationAttributes } from "sequelize";
 
-export interface IUsersRepository {
-  authenticate(email: string, password: string): Promise<User>;
-  create(user: User): Promise<User>;
-  update(id: string, user: User): Promise<User>;
-  delete(id: string): Promise<void>;
-}
+export type IUsersRepository = IBaseRepositorySequelize<User, CreationAttributes<User>>;

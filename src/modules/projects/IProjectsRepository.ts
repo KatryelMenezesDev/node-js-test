@@ -1,9 +1,5 @@
 import { Project } from "@shared/infra/sequelize/models";
+import { IBaseRepositorySequelize } from "@shared/repositories/sequelize/IBaseRepository";
+import { CreationAttributes } from "sequelize";
 
-export interface IUsersRepository {
-  findAll(): Promise<Project[]>;
-  findById(id: string): Promise<Project>;
-  create(project: Project): Promise<Project>;
-  update(id: string, project: Project): Promise<Project>;
-  delete(id: string): Promise<void>;
-}
+export type IProjectsRepository = IBaseRepositorySequelize<Project, CreationAttributes<Project>>;
