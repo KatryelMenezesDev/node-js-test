@@ -12,21 +12,16 @@ export class DeleteTaskUseCase {
   ) {}
 
   async execute(data: IInputDeleteTaskDTO): Promise<IOutputDeleteTaskDTO> {
-    try {
-      const existingTask = await this.tasksRepository.findById(data.id);
+    const existingTask = await this.tasksRepository.findById(data.id);
 
-      if (!existingTask) {
-        throw new NotFoundError("Task not found");
-      }
-
-      await this.tasksRepository.delete({ id: data.id });
-
-      return {
-        message: "Task deleted successfully",
-      };
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestError("Error deleting task");
+    if (!existingTask) {
+      throw new NotFoundError("Task not found");
     }
+
+    await this.tasksRepository.delete({ id: data.id });
+
+    return {
+      message: "Task deleted successfully",
+    };
   }
 }

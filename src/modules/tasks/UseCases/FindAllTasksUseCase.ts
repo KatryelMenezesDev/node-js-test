@@ -12,12 +12,7 @@ export class FindAllTasksUseCase {
   ) {}
 
   async execute(): Promise<IOutputFindAllTasksDTO[]> {
-    try {
-      const tasks = await this.tasksRepository.findAll();
-      return tasks;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestError("Error finding tasks");
-    }
+    const tasks = await this.tasksRepository.findAll();
+    return tasks;
   }
 }

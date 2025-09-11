@@ -12,17 +12,12 @@ export class FindProjectByIdUseCase {
   ) {}
 
   async execute(data: IInputFindProjectByIdDTO): Promise<IOutputFindProjectByIdDTO> {
-    try {
-      const project = await this.projectsRepository.findById(data.id);
+    const project = await this.projectsRepository.findById(data.id);
 
-      if (!project) {
-        throw new NotFoundError("Project not found");
-      }
-
-      return project;
-    } catch (error) {
-      console.log(error);
+    if (!project) {
       throw new NotFoundError("Project not found");
     }
+
+    return project;
   }
 }

@@ -12,12 +12,7 @@ export class FindAllProjectsUseCase {
   ) {}
 
   async execute(): Promise<IOutputFindAllProjectsDTO[]> {
-    try {
-      const project = await this.projectsRepository.findAll();
-      return project;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestError("Error when searching for projects");
-    }
+    const project = await this.projectsRepository.findAll();
+    return project;
   }
 }

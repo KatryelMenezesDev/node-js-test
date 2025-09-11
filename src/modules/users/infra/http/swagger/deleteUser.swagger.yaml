@@ -1,19 +1,12 @@
 paths:
-  /users/{id}:
+  /users:
     delete:
       tags:
         - Users
-      summary: Deletar um usuário
-      description: Remove um usuário do sistema
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: ID do usuário a ser deletado
-          schema:
-            type: string
-            format: uuid
-          example: "b2c3d4e5-f6g7-8901-bcde-2345678901bc"
+      security:
+        - BearerAuth: []
+      summary: Deletar conta do usuário logado
+      description: Remove a conta do usuário autenticado através do token JWT
       responses:
         '200':
           description: Usuário deletado com sucesso

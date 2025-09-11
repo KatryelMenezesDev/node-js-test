@@ -15,18 +15,13 @@ export class FindTasksByProjectUseCase {
   ) {}
 
   async execute(data: IInputFindTasksByProjectDTO): Promise<IOutputFindTasksByProjectDTO[]> {
-    try {
-      const existingProject = await this.projectsRepository.findById(data.project_id);
+    const existingProject = await this.projectsRepository.findById(data.project_id);
 
-      if (!existingProject) {
-        throw new NotFoundError("Project not found");
-      }
-
-      const tasks = await this.tasksRepository.findManyBy({ project_id: data.project_id });
-      return tasks;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestError("Error finding tasks by project");
+    if (!existingProject) {
+      throw new NotFoundError("Project not found");
     }
+
+    const tasks = await this.tasksRepository.findManyBy({ project_id: data.project_id });
+    return tasks;
   }
 }

@@ -12,31 +12,26 @@ export class UpdateTaskUseCase {
   ) {}
 
   async execute(data: IInputUpdateTaskDTO): Promise<IOutputUpdateTaskDTO> {
-    try {
-      const existingTask = await this.tasksRepository.findById(data.id);
+    const existingTask = await this.tasksRepository.findById(data.id);
 
-      if (!existingTask) {
-        throw new NotFoundError("Task not found");
-      }
+    if (!existingTask) {
+      throw new NotFoundError("Task not found");
+    }
 
-      const updateData = Object.fromEntries(
-        Object.entries({
-          title: data.title,
-          description: data.description,
-          status: data.status,
-        }).filter(([, value]) => value !== undefined),
-      );
+    const updateData = Object.fromEntries(
+      Object.entries({
+        title: data.title,
+        description: data.description,
+        status: data.status,
+      }).filter(([, value]) => value !== undefined),
+    );
 
-      const updatedTask = await this.tasksRepository.update({ id: data.id }, updateData);
+    const updatedTask = await this.tasksRepository.update({ id: data.id }, updateData);
 
-      if (!updatedTask) {
-        throw new BadRequestError("Error updating task");
-      }
-
-      return updatedTask;
-    } catch (error) {
-      console.log(error);
+    if (!updatedTask) {
       throw new BadRequestError("Error updating task");
     }
+
+    return updatedTask;
   }
 }

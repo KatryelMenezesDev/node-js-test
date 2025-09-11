@@ -12,21 +12,16 @@ export class DeleteProjectUseCase {
   ) {}
 
   async execute(data: IInputDeleteProjectDTO): Promise<IOutputDeleteProjectDTO> {
-    try {
-      const existingProject = await this.projectsRepository.findById(data.id);
+    const existingProject = await this.projectsRepository.findById(data.id);
 
-      if (!existingProject) {
-        throw new NotFoundError("Project not found");
-      }
-
-      await this.projectsRepository.delete({ id: data.id });
-
-      return {
-        message: "Project deleted successfully",
-      };
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestError("Error deleting project");
+    if (!existingProject) {
+      throw new NotFoundError("Project not found");
     }
+
+    await this.projectsRepository.delete({ id: data.id });
+
+    return {
+      message: "Project deleted successfully",
+    };
   }
 }

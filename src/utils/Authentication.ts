@@ -10,7 +10,7 @@ type JwtPayload = {
 
 declare module "express" {
   interface Request {
-    user: User;
+    user?: User;
   }
 }
 

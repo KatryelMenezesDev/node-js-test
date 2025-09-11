@@ -15,21 +15,16 @@ export class CreateTaskUseCase {
   ) {}
 
   async execute(data: IInputCreateTaskDTO): Promise<IOutputCreateTaskDTO> {
-    try {
-      const existingProject = await this.projectsRepository.findById(data.project_id);
+    const existingProject = await this.projectsRepository.findById(data.project_id);
 
-      if (!existingProject) {
-        throw new NotFoundError("Project not found");
-      }
-
-      const task = await this.tasksRepository.create({
-        ...data,
-        status: "todo",
-      });
-      return task;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestError("Error creating task");
+    if (!existingProject) {
+      throw new NotFoundError("Project not found");
     }
+
+    const task = await this.tasksRepository.create({
+      ...data,
+      status: "todo",
+    });
+    return task;
   }
 }

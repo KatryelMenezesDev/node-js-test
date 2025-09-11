@@ -12,15 +12,10 @@ export class CreateProjectsUseCase {
   ) {}
 
   async execute(data: IInputCreateProjectsDTO): Promise<IOutputCreateProjectsDTO> {
-    try {
-      const project = await this.projectsRepository.create({
-        ...data,
-        status: "pending",
-      });
-      return project;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestError("Error creating project");
-    }
+    const project = await this.projectsRepository.create({
+      ...data,
+      status: "pending",
+    });
+    return project;
   }
 }

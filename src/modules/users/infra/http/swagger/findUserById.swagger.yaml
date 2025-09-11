@@ -1,18 +1,12 @@
 paths:
-  /users/{id}:
+  /users:
     get:
       tags:
         - Users
-      summary: Buscar usuário por ID
-      description: Retorna os dados de um usuário específico
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: ID do usuário a ser buscado
-          schema:
-            type: string
-            format: uuid
+      security:
+        - BearerAuth: []
+      summary: Buscar dados do usuário logado
+      description: Retorna os dados do usuário autenticado através do token JWT
       responses:
         '200':
           description: Usuário encontrado com sucesso

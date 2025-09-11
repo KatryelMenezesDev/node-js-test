@@ -12,33 +12,28 @@ export class UpdateProjectUseCase {
   ) {}
 
   async execute(data: IInputUpdateProjectDTO): Promise<IOutputUpdateProjectDTO> {
-    try {
-      const existingProject = await this.projectsRepository.findById(data.id);
+    const existingProject = await this.projectsRepository.findById(data.id);
 
-      if (!existingProject) {
-        throw new NotFoundError("Project not found");
-      }
+    if (!existingProject) {
+      throw new NotFoundError("Project not found");
+    }
 
-      const updateData = Object.fromEntries(
-        Object.entries({
-          name: data.name,
-          description: data.description,
-          start_date: data.start_date,
-          end_date: data.end_date,
-          status: data.status,
-        }).filter(([, value]) => value !== undefined),
-      );
+    const updateData = Object.fromEntries(
+      Object.entries({
+        name: data.name,
+        description: data.description,
+        start_date: data.start_date,
+        end_date: data.end_date,
+        status: data.status,
+      }).filter(([, value]) => value !== undefined),
+    );
 
-      const updatedProject = await this.projectsRepository.update({ id: data.id }, updateData);
+    const updatedProject = await this.projectsRepository.update({ id: data.id }, updateData);
 
-      if (!updatedProject) {
-        throw new BadRequestError("Error updating project");
-      }
-
-      return updatedProject;
-    } catch (error) {
-      console.log(error);
+    if (!updatedProject) {
       throw new BadRequestError("Error updating project");
     }
+
+    return updatedProject;
   }
 }

@@ -18,27 +18,22 @@ export class AuthUsersUseCase {
   ) {}
 
   async execute(data: IInputAuthUserDTO): Promise<IOutputAuthUserDTO> {
-    try {
-      const { email, password } = data;
+    const { email, password } = data;
 
-      const user = await this.userRepository.findBy({ email });
+    const user = await this.userRepository.findBy({ email });
 
-      if (!user) {
-        throw new BadRequestError("User not found");
-      }
-
-      const passwordMatch = await this.hashProvider.compare(password, user.password);
-
-      if (!passwordMatch) {
-        throw new BadRequestError("Invalid password");
-      }
-
-      const token = await this.tokenProvider.sign({ id: user.id });
-
-      return { user, token };
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestError("Error authenticating user");
+    if (!user) {
+      throw new BadRequestError("User not found");
     }
+
+    const passwordMatch = await this.hashProvider.compare(password, user.password);
+
+    if (!passwordMatch) {
+      throw new BadRequestError("Invalid password");
+    }
+
+    const token = await this.tokenProvider.sign({ id: user.id });
+
+    return { user, token };
   }
 }

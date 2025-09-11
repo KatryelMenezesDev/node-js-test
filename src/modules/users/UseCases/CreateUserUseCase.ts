@@ -15,30 +15,25 @@ export class CreateUserUseCase {
   ) {}
 
   async execute(data: IInputCreateUserDTO): Promise<IOutputCreateUserDTO> {
-    try {
-      const existingUser = await this.usersRepository.findBy({ email: data.email });
+    const existingUser = await this.usersRepository.findBy({ email: data.email });
 
-      if (existingUser) {
-        throw new BadRequestError("User with this email already exists");
-      }
-
-      const hashedPassword = await this.hashProvider.hash(data.password);
-
-      const user = await this.usersRepository.create({
-        ...data,
-        password: hashedPassword,
-      });
-
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        created_at: user.created_at,
-        updated_at: user.updated_at,
-      };
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestError("Error creating user");
+    if (existingUser) {
+      throw new BadRequestError("User with this email already exists");
     }
+
+    const hashedPassword = await this.hashProvider.hash(data.password);
+
+    const user = await this.usersRepository.create({
+      ...data,
+      password: hashedPassword,
+    });
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+    };
   }
 }

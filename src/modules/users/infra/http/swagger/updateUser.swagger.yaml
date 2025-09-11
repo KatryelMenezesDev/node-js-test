@@ -1,18 +1,12 @@
 paths:
-  /users/{id}:
+  /users:
     put:
       tags:
         - Users
-      summary: Atualizar um usuário existente
-      description: Atualiza nome, email ou senha de um usuário
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: ID do usuário a ser atualizado
-          schema:
-            type: string
-            format: uuid
+      security:
+        - BearerAuth: []
+      summary: Atualizar dados do usuário logado
+      description: Atualiza nome, email ou senha do usuário autenticado através do token JWT
       requestBody:
         required: true
         content:
