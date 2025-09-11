@@ -1,20 +1,13 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../sequelizeClient";
 
-export enum ProjectStatus {
-  PENDING = "pending",
-  IN_PROGRESS = "in_progress",
-  COMPLETED = "completed",
-  ARCHIVED = "archived",
-}
-
 interface ProjectAttributes {
   id: string;
   name: string;
   description?: string;
   start_date?: Date;
   end_date?: Date;
-  status: ProjectStatus;
+  status: "pending" | "in_progress" | "completed" | "archived";
   created_at?: Date;
   updated_at?: Date;
 }
@@ -27,7 +20,7 @@ class Project extends Model<ProjectAttributes, ProjectCreationAttributes> implem
   public description?: string;
   public start_date?: Date;
   public end_date?: Date;
-  public status!: ProjectStatus;
+  public status!: "pending" | "in_progress" | "completed" | "archived";
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 }
@@ -56,9 +49,9 @@ Project.init(
       allowNull: true,
     },
     status: {
-      type: DataTypes.ENUM(...Object.values(ProjectStatus)),
+      type: DataTypes.ENUM(...Object.values(["pending", "in_progress", "completed", "archived"])),
       allowNull: false,
-      defaultValue: ProjectStatus.PENDING,
+      defaultValue: "pending",
     },
   },
   {

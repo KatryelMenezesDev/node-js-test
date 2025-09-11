@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
-import { IInputCreateProjectsDTO, IOutputCreateProjectsDTO, ProjectStatus } from "@modules/projects/dtos/createProjectsDTO";
+import { IInputCreateProjectsDTO, IOutputCreateProjectsDTO } from "@modules/projects/dtos/createProjectsDTO";
 import { BadRequestError } from "@utils/AppError";
 import { IProjectsRepository } from "@modules/projects/IProjectsRepository";
 
@@ -13,14 +13,14 @@ export class CreateProjectsUseCase {
 
   async execute(data: IInputCreateProjectsDTO): Promise<IOutputCreateProjectsDTO> {
     try {
-    const project = await this.projectsRepository.create({
-      ...data,
-      status: ProjectStatus.PENDING,
+      const project = await this.projectsRepository.create({
+        ...data,
+        status: "pending",
       });
       return project;
     } catch (error) {
-        console.log(error);
-        throw new BadRequestError("Erro ao criar projeto");
+      console.log(error);
+      throw new BadRequestError("Error creating project");
     }
   }
 }

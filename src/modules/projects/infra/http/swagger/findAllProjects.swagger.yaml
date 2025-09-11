@@ -1,0 +1,64 @@
+/projects:
+  get:
+    tags:
+      - Projects
+    summary: Lista todos os projetos.
+    description: Retorna uma lista com todos os projetos cadastrados no sistema
+    responses:
+      200:
+        description: Lista de projetos retornada com sucesso
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    example: "0720a8f5-df8e-4356-9216-e84a4f67aa1f"
+                    description: ID único do projeto
+                  name:
+                    type: string
+                    example: "Sistema de Gestão"
+                    description: Nome do projeto
+                  description:
+                    type: string
+                    example: "Sistema completo para gestão de projetos e tarefas"
+                    description: Descrição do projeto
+                  start_date:
+                    type: string
+                    format: date
+                    example: "2025-01-15"
+                    description: Data de início do projeto
+                  end_date:
+                    type: string
+                    format: date
+                    example: "2025-12-31"
+                    description: Data de término do projeto
+                  status:
+                    type: string
+                    enum: ["pending", "in_progress", "completed", "archived"]
+                    example: "pending"
+                    description: Status atual do projeto
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2025-09-11T10:30:00Z"
+                    description: Data de criação do projeto
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: "2025-09-11T10:30:00Z"
+                    description: Data da última atualização do projeto
+      "500":
+        description: Internal Server Error - Erro interno do servidor
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: "Erro interno do servidor"

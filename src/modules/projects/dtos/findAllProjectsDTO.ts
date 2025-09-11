@@ -1,11 +1,4 @@
-export interface IInputCreateProjectsDTO {
-  name: string;
-  description?: string;
-  start_date?: Date;
-  end_date?: Date;
-}
-
-export interface IOutputCreateProjectsDTO {
+export interface IOutputFindAllProjectsDTO {
   id: string;
   name: string;
   description?: string;
