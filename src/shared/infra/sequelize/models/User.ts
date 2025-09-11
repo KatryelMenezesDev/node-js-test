@@ -13,12 +13,13 @@ interface UserAttributes {
 type UserCreationAttributes = Optional<UserAttributes, "id" | "created_at" | "updated_at">;
 
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-  public id!: string;
-  public name!: string;
-  public email!: string;
-  public password!: string;
-  public readonly created_at!: Date;
-  public readonly updated_at!: Date;
+  // Os campos são automaticamente fornecidos pelo Sequelize através dos getters/setters
+  declare id: string;
+  declare name: string;
+  declare email: string;
+  declare password: string;
+  declare readonly created_at: Date;
+  declare readonly updated_at: Date;
 }
 
 User.init(

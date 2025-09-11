@@ -15,14 +15,15 @@ interface ProjectAttributes {
 type ProjectCreationAttributes = Optional<ProjectAttributes, "id" | "created_at" | "updated_at">;
 
 class Project extends Model<ProjectAttributes, ProjectCreationAttributes> implements ProjectAttributes {
-  public id!: string;
-  public name!: string;
-  public description?: string;
-  public start_date?: Date;
-  public end_date?: Date;
-  public status!: "pending" | "in_progress" | "completed" | "archived";
-  public readonly created_at!: Date;
-  public readonly updated_at!: Date;
+  // Os campos são automaticamente fornecidos pelo Sequelize através dos getters/setters
+  declare id: string;
+  declare name: string;
+  declare description?: string;
+  declare start_date?: Date;
+  declare end_date?: Date;
+  declare status: "pending" | "in_progress" | "completed" | "archived";
+  declare readonly created_at: Date;
+  declare readonly updated_at: Date;
 }
 
 Project.init(

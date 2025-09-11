@@ -20,13 +20,14 @@ interface TaskAttributes {
 type TaskCreationAttributes = Optional<TaskAttributes, "id" | "description" | "status" | "created_at" | "updated_at">;
 
 class Task extends Model<TaskAttributes, TaskCreationAttributes> implements TaskAttributes {
-  public id!: string;
-  public project_id!: string;
-  public title!: string;
-  public description?: string;
-  public status!: TaskStatus;
-  public readonly created_at!: Date;
-  public readonly updated_at!: Date;
+  // Os campos são automaticamente fornecidos pelo Sequelize através dos getters/setters
+  declare id: string;
+  declare project_id: string;
+  declare title: string;
+  declare description?: string;
+  declare status: TaskStatus;
+  declare readonly created_at: Date;
+  declare readonly updated_at: Date;
 }
 
 Task.init(
