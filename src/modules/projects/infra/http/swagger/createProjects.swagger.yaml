@@ -1,74 +1,90 @@
-/plans:
+/projects:
   post:
     tags:
-      - Plans
-    summary: Cria um novo plano (apenas administradores).
-    security:
-      - BearerAuth: []
+      - Projects
+    summary: Cria um novo projeto.
     requestBody:
       required: true
       content:
         application/json:
           schema:
             type: object
+            required:
+              - name
             properties:
               name:
                 type: string
-                example: "Plano Premium"
-              resources:
-                type: array
-                items:
-                  type: string
-                description: Recursos inclusos no plano
-                example: ["Acesso completo à plataforma", "suporte premium", "relatórios avançados"]
-              price:
-                type: number
-                example: 299.99
-              duration:
-                type: integer
-                example: 12
-              budgets:
-                type: integer
-                example: 50
-              favorites:
-                type: integer
-                example: 100
-                description: Número de favoritos permitidos (opcional)
-              type:
+                example: "Sistema de Gestão"
+                description: Nome do projeto (obrigatório)
+              description:
                 type: string
-                enum: ["user", "provider"]
-                example: "user"
-                description: Tipo de usuário do plano - user ou provider (opcional)
-              monitored:
-                type: integer
-                example: 25
-                description: Número de itens monitorados permitidos (opcional)
-              credits:
-                type: integer
-                example: 100
-                description: Número de créditos inclusos no plano (opcional)
+                example: "Sistema completo para gestão de projetos e tarefas"
+                description: Descrição do projeto (opcional)
+              start_date:
+                type: string
+                format: date
+                example: "2025-01-15"
+                description: Data de início do projeto (opcional)
+              end_date:
+                type: string
+                format: date
+                example: "2025-12-31"
+                description: Data de término do projeto (opcional)
     responses:
       201:
-        description: Plano criado com sucesso
+        description: Projeto criado com sucesso
         content:
           application/json:
-            example:
-              plan:
-                id: "0720a8f5-df8e-4356-9216-e84a4f67aa1f"
-                name: "Plano Premium"
-                resources: ["Acesso completo à plataforma", "suporte premium"]
-                price: 299.99
-                duration: 12
-                budgets: 50
-                favorites: 100
-                type: "user"
-                monitored: 25
-                credits: 100
-      "409":
-        description: Conflict - Plano já existe
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  example: "0720a8f5-df8e-4356-9216-e84a4f67aa1f"
+                  description: ID único do projeto
+                name:
+                  type: string
+                  example: "Sistema de Gestão"
+                  description: Nome do projeto
+                description:
+                  type: string
+                  example: "Sistema completo para gestão de projetos e tarefas"
+                  description: Descrição do projeto
+                start_date:
+                  type: string
+                  format: date
+                  example: "2025-01-15"
+                  description: Data de início do projeto
+                end_date:
+                  type: string
+                  format: date
+                  example: "2025-12-31"
+                  description: Data de término do projeto
+                status:
+                  type: string
+                  enum: ["pending", "in_progress", "completed", "archived"]
+                  example: "pending"
+                  description: Status atual do projeto
+                created_at:
+                  type: string
+                  format: date-time
+                  example: "2025-09-11T10:30:00Z"
+                  description: Data de criação do projeto
+                updated_at:
+                  type: string
+                  format: date-time
+                  example: "2025-09-11T10:30:00Z"
+                  description: Data da última atualização do projeto
       "400":
-        description: Bad request
-      "401":
-        description: Unauthorized - Token não fornecido ou inválido
-      "403":
-        description: Forbidden - Acesso restrito a administradores
+        description: Bad Request - Dados inválidos fornecidos
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: "Erro ao criar projeto"
+      "500":
+        description: Internal Server Error - Erro interno do servidor
