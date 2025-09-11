@@ -1,18 +1,12 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../sequelizeClient";
 
-export enum TaskStatus {
-  TODO = "todo",
-  IN_PROGRESS = "in_progress",
-  DONE = "done",
-}
-
 interface TaskAttributes {
   id: string;
   project_id: string;
   title: string;
   description?: string;
-  status: TaskStatus;
+  status: "todo" | "in_progress" | "done";
   created_at?: Date;
   updated_at?: Date;
 }
@@ -25,7 +19,7 @@ class Task extends Model<TaskAttributes, TaskCreationAttributes> implements Task
   declare project_id: string;
   declare title: string;
   declare description?: string;
-  declare status: TaskStatus;
+  declare status: "todo" | "in_progress" | "done";
   declare readonly created_at: Date;
   declare readonly updated_at: Date;
 }
@@ -55,9 +49,9 @@ Task.init(
       allowNull: true,
     },
     status: {
-      type: DataTypes.ENUM(...Object.values(TaskStatus)),
+      type: DataTypes.ENUM(...Object.values(["todo", "in_progress", "done"])),
       allowNull: false,
-      defaultValue: TaskStatus.TODO,
+      defaultValue: "todo",
     },
   },
   {

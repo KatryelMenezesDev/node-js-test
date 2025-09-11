@@ -1,0 +1,63 @@
+paths:
+  /tasks/{id}:
+    put:
+      tags:
+        - Tasks
+      summary: Atualizar uma tarefa existente
+      description: Atualiza status, título ou descrição de uma tarefa
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da tarefa a ser atualizada
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Novo título da tarefa
+                description:
+                  type: string
+                  description: Nova descrição da tarefa
+                status:
+                  type: string
+                  enum: [todo, in_progress, done]
+                  description: Novo status da tarefa
+      responses:
+        '200':
+          description: Tarefa atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  project_id:
+                    type: string
+                    format: uuid
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  status:
+                    type: string
+                    enum: [todo, in_progress, done]
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+        '400':
+          description: Dados inválidos
+        '404':
+          description: Tarefa não encontrada

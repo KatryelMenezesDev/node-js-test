@@ -1,0 +1,30 @@
+paths:
+  /tasks/{id}:
+    delete:
+      tags:
+        - Tasks
+      summary: Remover uma tarefa
+      description: Remove permanentemente uma tarefa do sistema
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da tarefa a ser removida
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Tarefa removida com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Task deleted successfully"
+        '404':
+          description: Tarefa não encontrada
+        '400':
+          description: Erro na remoção da tarefa

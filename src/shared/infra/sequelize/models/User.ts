@@ -13,7 +13,6 @@ interface UserAttributes {
 type UserCreationAttributes = Optional<UserAttributes, "id" | "created_at" | "updated_at">;
 
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-  // Os campos são automaticamente fornecidos pelo Sequelize através dos getters/setters
   declare id: string;
   declare name: string;
   declare email: string;

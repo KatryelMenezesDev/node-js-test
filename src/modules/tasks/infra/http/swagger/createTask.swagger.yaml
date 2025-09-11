@@ -1,0 +1,61 @@
+paths:
+  /projects/{projectId}/tasks:
+    post:
+      tags:
+        - Tasks
+      summary: Criar uma nova tarefa vinculada a um projeto
+      description: Cria uma nova tarefa e vincula ela a um projeto específico
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: ID do projeto para vincular a tarefa
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  description: Título da tarefa
+                description:
+                  type: string
+                  description: Descrição opcional da tarefa
+      responses:
+        '201':
+          description: Tarefa criada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  project_id:
+                    type: string
+                    format: uuid
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  status:
+                    type: string
+                    enum: [todo, in_progress, done]
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+        '400':
+          description: Dados inválidos
+        '404':
+          description: Projeto não encontrado
