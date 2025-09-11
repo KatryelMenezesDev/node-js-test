@@ -26,9 +26,6 @@ export class DeleteProjectUseCase {
       };
     } catch (error) {
       console.log(error);
-      if (error instanceof NotFoundError) {
-        throw error;
-      }
       throw new BadRequestError("Error deleting project");
     }
   }

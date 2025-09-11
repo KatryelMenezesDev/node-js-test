@@ -1,0 +1,48 @@
+paths:
+  /projects/{projectId}/tasks:
+    get:
+      tags:
+        - Tasks
+      summary: Listar tarefas de um projeto específico
+      description: Retorna uma lista com todas as tarefas vinculadas a um projeto específico
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: ID do projeto para buscar as tarefas
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Lista de tarefas do projeto retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    project_id:
+                      type: string
+                      format: uuid
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    status:
+                      type: string
+                      enum: [todo, in_progress, done]
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+        '400':
+          description: Erro ao buscar tarefas
+        '404':
+          description: Projeto não encontrado

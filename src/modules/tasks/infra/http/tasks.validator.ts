@@ -27,3 +27,9 @@ export const DeleteTaskValidator = {
     id: Joi.string().uuid().required().messages(customMessage("ID da tarefa")),
   }),
 };
+
+export const FindTasksByProjectValidator = {
+  [Segments.PARAMS]: Joi.object().keys({
+    projectId: Joi.string().uuid().required().messages(customMessage("ID do projeto")),
+  }),
+};

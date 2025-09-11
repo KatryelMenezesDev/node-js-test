@@ -1,12 +1,12 @@
 import { inject, injectable } from "tsyringe";
 
-import { IInputCreateTaskDTO, IOutputCreateTaskDTO } from "@modules/tasks/dtos/createTaskDTO";
+import { IInputFindTasksByProjectDTO, IOutputFindTasksByProjectDTO } from "@modules/tasks/dtos/findTasksDTO";
 import { BadRequestError, NotFoundError } from "@utils/AppError";
 import { ITasksRepository } from "@modules/tasks/ITasksRepository";
 import { IProjectsRepository } from "@modules/projects/IProjectsRepository";
 
 @injectable()
-export class CreateTaskUseCase {
+export class FindTasksByProjectUseCase {
   constructor(
     @inject("TasksRepository")
     private tasksRepository: ITasksRepository,
@@ -14,7 +14,7 @@ export class CreateTaskUseCase {
     private projectsRepository: IProjectsRepository,
   ) {}
 
-  async execute(data: IInputCreateTaskDTO): Promise<IOutputCreateTaskDTO> {
+  async execute(data: IInputFindTasksByProjectDTO): Promise<IOutputFindTasksByProjectDTO[]> {
     try {
       const existingProject = await this.projectsRepository.findById(data.project_id);
 
@@ -22,14 +22,11 @@ export class CreateTaskUseCase {
         throw new NotFoundError("Project not found");
       }
 
-      const task = await this.tasksRepository.create({
-        ...data,
-        status: "todo",
-      });
-      return task;
+      const tasks = await this.tasksRepository.findManyBy({ project_id: data.project_id });
+      return tasks;
     } catch (error) {
       console.log(error);
-      throw new BadRequestError("Error creating task");
+      throw new BadRequestError("Error finding tasks by project");
     }
   }
 }

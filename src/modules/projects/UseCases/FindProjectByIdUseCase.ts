@@ -22,9 +22,6 @@ export class FindProjectByIdUseCase {
       return project;
     } catch (error) {
       console.log(error);
-      if (error instanceof NotFoundError) {
-        throw error;
-      }
       throw new NotFoundError("Project not found");
     }
   }

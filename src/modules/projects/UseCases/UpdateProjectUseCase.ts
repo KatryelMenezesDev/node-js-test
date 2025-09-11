@@ -38,9 +38,6 @@ export class UpdateProjectUseCase {
       return updatedProject;
     } catch (error) {
       console.log(error);
-      if (error instanceof NotFoundError) {
-        throw error;
-      }
       throw new BadRequestError("Error updating project");
     }
   }
