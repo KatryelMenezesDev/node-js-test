@@ -1,20 +1,13 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../sequelizeClient";
 
-export enum ProjectStatus {
-  PENDING = "pending",
-  IN_PROGRESS = "in_progress",
-  COMPLETED = "completed",
-  ARCHIVED = "archived",
-}
-
 interface ProjectAttributes {
   id: string;
   name: string;
   description?: string;
   start_date?: Date;
   end_date?: Date;
-  status: ProjectStatus;
+  status: "pending" | "in_progress" | "completed" | "archived";
   created_at?: Date;
   updated_at?: Date;
 }

@@ -25,7 +25,7 @@ const options = {
       {
         url: `http://localhost:${String(appConfig.port)}`,
         description: "API LOCAL HTTP",
-      }
+      },
     ],
     components: {
       securitySchemes: {
