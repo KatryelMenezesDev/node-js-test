@@ -37,3 +37,10 @@ export const DeleteProjectValidator = {
     id: Joi.string().uuid().required().messages(customMessage("ID do projeto")),
   }),
 };
+
+export const LinkGithubReposValidator = {
+  [Segments.PARAMS]: Joi.object().keys({
+    id: Joi.string().uuid().required().messages(customMessage("ID do projeto")),
+    username: Joi.string().required().messages(customMessage("Nome de usuário do GitHub")),
+  }),
+};

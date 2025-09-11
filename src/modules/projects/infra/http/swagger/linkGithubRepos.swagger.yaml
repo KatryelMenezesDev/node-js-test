@@ -1,0 +1,174 @@
+/projects/{id}/github/{username}:
+  get:
+    tags:
+      - Projects
+    security:
+      - BearerAuth: []
+    summary: Busca e vincula repositórios GitHub ao projeto.
+    description: |
+      Busca os 5 últimos repositórios públicos de um usuário no GitHub e os vincula ao projeto especificado.
+      Os repositórios são salvos no banco de dados e associados ao projeto.
+      Utiliza a biblioteca Axios para fazer requisições HTTP para a API do GitHub.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ID único do projeto
+        example: "0720a8f5-df8e-4356-9216-e84a4f67aa1f"
+      - in: path
+        name: username
+        required: true
+        schema:
+          type: string
+        description: Nome de usuário do GitHub
+        example: "katryelmenezesdev"
+    responses:
+      200:
+        description: Repositórios GitHub vinculados com sucesso
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: string
+                  format: uuid
+                  example: "0720a8f5-df8e-4356-9216-e84a4f67aa1f"
+                  description: ID do projeto
+                username:
+                  type: string
+                  example: "katryelmenezesdev"
+                  description: Nome de usuário do GitHub
+                repositories:
+                  type: array
+                  description: Lista dos repositórios vinculados
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                        description: ID único do repositório no sistema
+                      github_id:
+                        type: integer
+                        example: 1296269
+                        description: ID do repositório no GitHub
+                      name:
+                        type: string
+                        example: "Hello-World"
+                        description: Nome do repositório
+                      full_name:
+                        type: string
+                        example: "octocat/Hello-World"
+                        description: Nome completo do repositório (usuário/repositório)
+                      description:
+                        type: string
+                        example: "This your first repo!"
+                        description: Descrição do repositório
+                      html_url:
+                        type: string
+                        format: uri
+                        example: "https://github.com/octocat/Hello-World"
+                        description: URL do repositório no GitHub
+                      clone_url:
+                        type: string
+                        format: uri
+                        example: "https://github.com/octocat/Hello-World.git"
+                        description: URL para clonar o repositório
+                      language:
+                        type: string
+                        example: "JavaScript"
+                        description: Linguagem principal do repositório
+                      stargazers_count:
+                        type: integer
+                        example: 80
+                        description: Número de estrelas do repositório
+                      forks_count:
+                        type: integer
+                        example: 9
+                        description: Número de forks do repositório
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: "2025-09-11T10:30:00Z"
+                        description: Data de criação do registro no sistema
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: "2025-09-11T10:30:00Z"
+                        description: Data da última atualização do registro
+            example:
+              project_id: "0720a8f5-df8e-4356-9216-e84a4f67aa1f"
+              username: "katryelmenezesdev"
+              repositories:
+                - id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+                  github_id: 1296269
+                  name: "Hello-World"
+                  full_name: "octocat/Hello-World"
+                  description: "This your first repo!"
+                  html_url: "https://github.com/octocat/Hello-World"
+                  clone_url: "https://github.com/octocat/Hello-World.git"
+                  language: "JavaScript"
+                  stargazers_count: 80
+                  forks_count: 9
+                  created_at: "2025-09-11T10:30:00Z"
+                  updated_at: "2025-09-11T10:30:00Z"
+      400:
+        description: Bad Request - Parâmetros inválidos fornecidos
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: "ID do projeto deve ser um UUID válido"
+            example:
+              error: "ID do projeto deve ser um UUID válido"
+      401:
+        description: Unauthorized - Token de autenticação inválido ou ausente
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: "Token de autenticação inválido"
+            example:
+              error: "Token de autenticação inválido"
+      404:
+        description: Not Found - Projeto ou usuário GitHub não encontrado
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: "Project not found"
+            examples:
+              project_not_found:
+                summary: Projeto não encontrado
+                value:
+                  error: "Project not found"
+              github_user_not_found:
+                summary: Usuário do GitHub não encontrado
+                value:
+                  error: "GitHub user not found"
+      500:
+        description: Internal Server Error - Erro interno do servidor
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: "Error fetching GitHub repositories"
+            example:
+              error: "Error fetching GitHub repositories"

@@ -1,6 +1,7 @@
 import { User } from "./User";
 import { Project } from "./Project";
 import { Task } from "./Task";
+import { Repository } from "./Repository";
 
 Project.hasMany(Task, {
   foreignKey: "project_id",
@@ -13,13 +14,22 @@ Task.belongsTo(Project, {
   as: "project",
 });
 
-export { User, Project, Task };
+Project.hasMany(Repository, {
+  foreignKey: "project_id",
+  as: "repositories",
+  onDelete: "CASCADE",
+});
 
-export { ProjectStatus } from "./Project";
-export { TaskStatus } from "./Task";
+Repository.belongsTo(Project, {
+  foreignKey: "project_id",
+  as: "project",
+});
+
+export { User, Project, Task, Repository };
 
 export const models = {
   User,
   Project,
   Task,
+  Repository,
 };

@@ -6,6 +6,7 @@ import { IInputCreateProjectsDTO, IOutputCreateProjectsDTO } from "@modules/proj
 import { IOutputFindAllProjectsDTO, IOutputFindProjectByIdDTO } from "@modules/projects/dtos/findProjectsDTO";
 import { IOutputUpdateProjectDTO } from "@modules/projects/dtos/updateProjectDTO";
 import { IOutputDeleteProjectDTO } from "@modules/projects/dtos/deleteProjectDTO";
+import { IOutputLinkGithubReposDTO } from "@modules/projects/dtos/linkGithubReposDTO";
 
 // UseCases
 import { FindAllProjectsUseCase } from "@modules/projects/UseCases/FindAllProjectsUseCase";
@@ -13,6 +14,7 @@ import { CreateProjectsUseCase } from "@modules/projects/UseCases/CreateProjects
 import { FindProjectByIdUseCase } from "@modules/projects/UseCases/FindProjectByIdUseCase";
 import { UpdateProjectUseCase } from "@modules/projects/UseCases/UpdateProjectUseCase";
 import { DeleteProjectUseCase } from "@modules/projects/UseCases/DeleteProjectUseCase";
+import { LinkGithubReposUseCase } from "@modules/projects/UseCases/LinkGithubReposUseCase";
 
 export class CreateProjectsController {
   async handle(req: Request, res: Response): Promise<Response> {
@@ -68,6 +70,18 @@ export class DeleteProjectController {
     const { id } = req.params;
     const deleteProjectUseCase = container.resolve(DeleteProjectUseCase);
     const result: IOutputDeleteProjectDTO = await deleteProjectUseCase.execute({ id });
+    return res.status(200).json(result);
+  }
+}
+
+export class LinkGithubReposController {
+  async handle(req: Request, res: Response): Promise<Response> {
+    const { id, username } = req.params;
+    const linkGithubReposUseCase = container.resolve(LinkGithubReposUseCase);
+    const result: IOutputLinkGithubReposDTO = await linkGithubReposUseCase.execute({
+      project_id: id,
+      username,
+    });
     return res.status(200).json(result);
   }
 }
