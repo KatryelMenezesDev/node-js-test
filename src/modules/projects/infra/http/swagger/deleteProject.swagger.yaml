@@ -1,0 +1,57 @@
+/projects/{id}:
+  delete:
+    tags:
+      - Projects
+    summary: Remove um projeto.
+    description: Remove permanentemente um projeto do sistema
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ID único do projeto
+        example: "0720a8f5-df8e-4356-9216-e84a4f67aa1f"
+    responses:
+      200:
+        description: Projeto removido com sucesso
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Project deleted successfully"
+                  description: Mensagem de confirmação da exclusão
+      "400":
+        description: Bad Request - ID inválido fornecido
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: "ID do projeto deve ser um UUID válido"
+      "404":
+        description: Not Found - Projeto não encontrado
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: "Project not found"
+      "500":
+        description: Internal Server Error - Erro interno do servidor
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: "Error deleting project"

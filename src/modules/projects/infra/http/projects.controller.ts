@@ -3,11 +3,16 @@ import { container } from "tsyringe";
 
 // DTOs
 import { IInputCreateProjectsDTO, IOutputCreateProjectsDTO } from "@modules/projects/dtos/createProjectsDTO";
-import { IOutputFindAllProjectsDTO } from "@modules/projects/dtos/findAllProjectsDTO";
+import { IOutputFindAllProjectsDTO, IOutputFindProjectByIdDTO } from "@modules/projects/dtos/findProjectsDTO";
+import { IOutputUpdateProjectDTO } from "@modules/projects/dtos/updateProjectDTO";
+import { IOutputDeleteProjectDTO } from "@modules/projects/dtos/deleteProjectDTO";
 
 // UseCases
 import { FindAllProjectsUseCase } from "@modules/projects/UseCases/FindAllProjectsUseCase";
 import { CreateProjectsUseCase } from "@modules/projects/UseCases/CreateProjectsUseCase";
+import { FindProjectByIdUseCase } from "@modules/projects/UseCases/FindProjectByIdUseCase";
+import { UpdateProjectUseCase } from "@modules/projects/UseCases/UpdateProjectUseCase";
+import { DeleteProjectUseCase } from "@modules/projects/UseCases/DeleteProjectUseCase";
 
 export class CreateProjectsController {
   async handle(req: Request, res: Response): Promise<Response> {
@@ -28,6 +33,41 @@ export class FindAllProjectsController {
   async handle(req: Request, res: Response): Promise<Response> {
     const findAllProjectsUseCase = container.resolve(FindAllProjectsUseCase);
     const result: IOutputFindAllProjectsDTO[] = await findAllProjectsUseCase.execute();
+    return res.status(200).json(result);
+  }
+}
+
+export class FindProjectByIdController {
+  async handle(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const findProjectByIdUseCase = container.resolve(FindProjectByIdUseCase);
+    const result: IOutputFindProjectByIdDTO = await findProjectByIdUseCase.execute({ id });
+    return res.status(200).json(result);
+  }
+}
+
+export class UpdateProjectController {
+  async handle(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const { name, description, start_date, end_date, status } = req.body;
+    const updateProjectUseCase = container.resolve(UpdateProjectUseCase);
+    const result: IOutputUpdateProjectDTO = await updateProjectUseCase.execute({
+      id,
+      name,
+      description,
+      start_date,
+      end_date,
+      status,
+    });
+    return res.status(200).json(result);
+  }
+}
+
+export class DeleteProjectController {
+  async handle(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const deleteProjectUseCase = container.resolve(DeleteProjectUseCase);
+    const result: IOutputDeleteProjectDTO = await deleteProjectUseCase.execute({ id });
     return res.status(200).json(result);
   }
 }
