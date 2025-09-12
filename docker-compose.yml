@@ -44,6 +44,33 @@ services:
       - app-network
     command: redis-server --appendonly yes
 
+  api:
+    build: .
+    container_name: node-js-test-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: local
+      API_PORT: 3000
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: app_user
+      DB_PASS: app_password
+      DB_NAME: node_js_test
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD:
+      JWT_PASS: liguelead
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - app-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+
 volumes:
   mysql_data:
   redis_data:
