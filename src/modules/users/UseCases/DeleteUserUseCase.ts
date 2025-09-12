@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { IInputDeleteUserDTO, IOutputDeleteUserDTO } from "@modules/users/dtos/deleteUserDTO";
-import { BadRequestError, NotFoundError } from "@utils/AppError";
+import { NotFoundError } from "@utils/AppError";
 import { IUsersRepository } from "@modules/users/IUsersRepository";
 
 @injectable()

@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { IInputFindUserByIdDTO, IOutputFindUserByIdDTO } from "@modules/users/dtos/findUsersDTO";
-import { BadRequestError, NotFoundError } from "@utils/AppError";
+import { NotFoundError } from "@utils/AppError";
 import { IUsersRepository } from "@modules/users/IUsersRepository";
 
 @injectable()

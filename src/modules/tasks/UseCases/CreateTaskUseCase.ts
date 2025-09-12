@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { IInputCreateTaskDTO, IOutputCreateTaskDTO } from "@modules/tasks/dtos/createTaskDTO";
-import { BadRequestError, NotFoundError } from "@utils/AppError";
+import { NotFoundError } from "@utils/AppError";
 import { ITasksRepository } from "@modules/tasks/ITasksRepository";
 import { IProjectsRepository } from "@modules/projects/IProjectsRepository";
 

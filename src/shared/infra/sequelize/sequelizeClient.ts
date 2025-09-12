@@ -38,9 +38,9 @@ const SequelizeClient = {
       const sequelize = SequelizeClient.getInstance();
 
       await sequelize.sync({ alter: false });
-      console.log("📋 Tabelas sincronizadas com sucesso!");
+      console.log("📋 Tables synchronized successfully!");
     } catch (error) {
-      console.error("❌ Erro ao sincronizar tabelas:", error);
+      console.error("❌ Error synchronizing tables:", error);
       throw error;
     }
   },
@@ -49,11 +49,11 @@ const SequelizeClient = {
     try {
       const sequelize = SequelizeClient.getInstance();
       await sequelize.authenticate();
-      console.log("✅ Conexão com MySQL estabelecida com sucesso!");
+      console.log("✅ MySQL connection established successfully!");
 
       await SequelizeClient.syncModels();
     } catch (error) {
-      console.error("❌ Erro ao conectar com MySQL:", error);
+      console.error("❌ Error connecting to MySQL:", error);
       throw error;
     }
   },
@@ -61,7 +61,7 @@ const SequelizeClient = {
   async close(): Promise<void> {
     if (instance) {
       await instance.close();
-      console.log("🔌 Conexão com MySQL fechada.");
+      console.log("🔌 MySQL connection closed.");
     }
   },
 };

@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { IInputDeleteProjectDTO, IOutputDeleteProjectDTO } from "@modules/projects/dtos/deleteProjectDTO";
-import { BadRequestError, NotFoundError } from "@utils/AppError";
+import { NotFoundError } from "@utils/AppError";
 import { IProjectsRepository } from "@modules/projects/IProjectsRepository";
 
 @injectable()
