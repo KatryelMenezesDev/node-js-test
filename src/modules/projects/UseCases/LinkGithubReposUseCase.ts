@@ -4,6 +4,7 @@ import { IInputLinkGithubReposDTO, IOutputLinkGithubReposDTO } from "@modules/pr
 import { NotFoundError, BadRequestError } from "@utils/AppError";
 import { IProjectsRepository } from "@modules/projects/IProjectsRepository";
 import { IRepositoriesRepository } from "@modules/projects/IRepositoriesRepository";
+import { IRedisCacheProvider } from "@shared/providers/CacheProvider/IRedisCacheProvider";
 
 interface GitHubRepository {
   id: number;
@@ -24,6 +25,8 @@ export class LinkGithubReposUseCase {
     private projectsRepository: IProjectsRepository,
     @inject("RepositoriesRepository")
     private repositoriesRepository: IRepositoriesRepository,
+    @inject("RedisCacheProvider")
+    private redisCacheProvider: IRedisCacheProvider,
   ) {}
 
   async execute({ project_id, username }: IInputLinkGithubReposDTO): Promise<IOutputLinkGithubReposDTO> {
@@ -36,13 +39,29 @@ export class LinkGithubReposUseCase {
       throw new BadRequestError("GitHub username is required");
     }
 
+    const cacheKey = `github_repos_${username}`;
+
     try {
-      const response = await axios.get(`https://api.github.com/users/${username}/repos?sort=updated&per_page=5`);
-      const githubRepos: GitHubRepository[] = response.data;
+      let githubRepos: GitHubRepository[] | null = (await this.redisCacheProvider.get(cacheKey)) as
+        | GitHubRepository[]
+        | null;
+
+      //console.log("Cache hit:", githubRepos ? "true" : "false");
+
+      if (!githubRepos) {
+        const response = await axios.get(`https://api.github.com/users/${username}/repos?sort=updated&per_page=5`);
+        githubRepos = response.data;
+
+        await this.redisCacheProvider.set(cacheKey, githubRepos, 600);
+      }
 
       const savedRepositories = [];
 
-      for (const repo of githubRepos) {
+      for (const repo of githubRepos!) {
+        if (!repo.id || typeof repo.id !== "number") {
+          continue;
+        }
+
         const existingRepo = await this.repositoriesRepository.findBy({ github_id: repo.id });
 
         if (!existingRepo) {
@@ -78,7 +97,6 @@ export class LinkGithubReposUseCase {
         }
         throw new BadRequestError("Error fetching GitHub repositories");
       }
-
       throw new BadRequestError("Error processing GitHub repositories");
     }
   }
